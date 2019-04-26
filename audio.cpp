@@ -1,5 +1,6 @@
 #include "audio.hh"
 #include <memory>
+#include "app.hh"
 using std::shared_ptr;
 
 Mix_Music* audio_load_music(const char* path) {
@@ -10,8 +11,13 @@ Mix_Chunk* audio_load_sample(const char* path) {
     return Mix_LoadWAV(path);
 }
 
-extern Mix_Music* gSong;
 bool loadMusic() {
-    Globals::gSong = audio_load_music("song.mp3");
+    auto app = App::get_instance();
+    Mix_Music* music = audio_load_music("song.mp3");
+    if (music != nullptr) {
+        app->set_song( music);
+    } else {
+        return false;
+    }
     return true;
 }

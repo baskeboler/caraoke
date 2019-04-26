@@ -10,8 +10,9 @@
 #include "sdl_utils.hh"
 #include "audio.hh"
 #include "karaoke_text_display.hh"
-
+#include "app.hh"
 #include <iostream>
+#include <apr_time.h>
 using std::cout, std::cerr, std::endl;
 // Screen dimension constants
 // extern const int SCREEN_WIDTH;
@@ -46,10 +47,12 @@ int  main(int argc, char **argv) {
   //   text_frame_t f = text_frame_create("algo de texto", 0);
   //   print_frame(f);
   // }
+      auto app = App::get_instance();
   auto k = new KaraokeTextDisplay();
   // k->render();
   delete k;
-  vector<TextFrame> l = load_json("song.json");
+  FrameVec l = load_json("song.json");
+  app->set_frames(std::move(l));
   // for
   // debug_frames(l);
   // Initialize SDL
@@ -63,9 +66,16 @@ int  main(int argc, char **argv) {
       SDL_Color textColor = {255, 0, 0, 255};
     
       loadMusic();
-      Mix_PlayMusic(Globals::gSong, 1);
+      Mix_PlayMusic(app->get_song(), 1);
       // Apply the image
-      auto kd = new KaraokeTextDisplay("The quick brown fox jumps over the lazy dog",textColor, Globals::gFont, Globals::gRenderer);
+      app->start_timer();
+      auto kd = new KaraokeTextDisplay("The quick brown fox jumps over the lazy dog",textColor, app->get_font(), app->get_renderer());
+      int x = (app->get_screen_width() / 2) - (kd->get_w() / 2),
+      y  = (app->get_screen_height() / 2) - (kd->get_h() / 2);
+      kd->set_x(x);
+      kd->set_y(y);
+      app->set_text_display(std::make_shared<KaraokeTextDisplay>(*kd));
+      
       bool quit = false;
       SDL_Event e;
 
@@ -88,11 +98,14 @@ int  main(int argc, char **argv) {
             default: break;
           }
         }
-        SDL_BlitSurface(Globals::gHelloWorld, NULL, Globals::gScreenSurface, NULL);
-        // Globals::gTextTexture->render(0, 0);
-        kd->render();
-        SDL_UpdateWindowSurface(Globals::gWindow);
-        SDL_RenderPresent(Globals::gRenderer);
+        app->update_frame();
+        // cout << "elapsed: " << app->elapsed_seconds() << endl;
+        SDL_SetRenderDrawColor(app->get_renderer(),128,128,128,255);
+        SDL_RenderClear(app->get_renderer());
+        SDL_BlitSurface(app->get_hello_world(), NULL, app->get_screen_surface(), NULL);
+        app->get_text_display()->render();
+        SDL_UpdateWindowSurface(app->get_window());
+        SDL_RenderPresent(app->get_renderer());
       }
       // Update the surface
       delete kd;
@@ -101,6 +114,6 @@ int  main(int argc, char **argv) {
     }
   }
   // Free resources and close SDL
-  cleanup();
+  // cleanup();
 
 }

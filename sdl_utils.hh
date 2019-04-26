@@ -1,7 +1,6 @@
 #if !defined(SDL_UTILS_H)
 #define SDL_UTILS_H
 
-#include "globals.hh"
 #include "common.hh"
 
 #include <SDL2/SDL.h>
@@ -24,6 +23,5 @@
 
 extern bool sdl_init() ;
 extern bool loadMedia() ;
-extern void cleanup();
 #endif // SDL_UTILS_H
 

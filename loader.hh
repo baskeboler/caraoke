@@ -3,19 +3,21 @@
 
 #include "text.hh"
 #include <vector>
-
+#include <memory>
 using std::vector;
+using std::shared_ptr;
+
 // apr_
 
 /**
  * 
  */ 
-extern vector<TextFrame> load_json(const char *path);
+extern FrameVec load_json(const char *path);
 
 /**
  * 
  */
-extern void debug_frames(vector<TextFrame>& l);
+extern void debug_frames(FrameVec& l);
 
 
 #endif // LOADER_H

@@ -33,3 +33,15 @@ TextFrame::TextFrame(const char * t, unsigned int progress) {
   pthread_mutex_init(&mutex, &attr);
 
 }
+
+string TextFrame::get_current_text_progress(double offset) {
+    int count = 0;
+    for(auto&& e : events)
+    {
+      if (e.offset_seconds <= offset)
+        count += e.char_count;
+    }
+    return text.substr(0, count);
+    
+  }
+  

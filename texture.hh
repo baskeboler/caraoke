@@ -24,7 +24,7 @@ class Texture {
   public:
   int get_w() const;
   int get_h() const;
-  Texture(SDL_Texture* tex, SDL_Renderer* ren): mTexture(tex), mRenderer(ren) {}
+  Texture(SDL_Texture* tex, SDL_Renderer* ren);
   void init(int w, int h);
   void free();
   void load(const string& path);
