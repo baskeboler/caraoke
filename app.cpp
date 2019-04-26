@@ -59,7 +59,7 @@ void App::update_frame() {
   shared_ptr<TextFrame> current;
   auto elapsed = elapsed_seconds();
   for (auto fr : frames) {
-    if (fr->offset_seconds <= elapsed - 2.5) {
+    if (fr->offset_seconds <= elapsed) {
       current = fr;
     } else {
       break;
@@ -68,18 +68,22 @@ void App::update_frame() {
   if (current && current != current_frame) {
     cout << "new frame: " << current->text << endl;
     current_frame = current;
-    auto t = new Texture(nullptr, get_renderer());
-    t->init(100, 100);
-    t->load_from_rendered_text(current->text, {255, 0, 0, 255}, get_font());
-    gTextTexture.reset(t);
+    // auto t = new Texture(nullptr, get_renderer());
+    // t->init(100, 100);
+    // t->load_from_rendered_text(current->text, {255, 255, 255, 255},
+    // get_font()); gTextTexture.reset(t);
 
-    auto kd = new KaraokeTextDisplay(current->text.c_str(), {255, 0, 0, 255},
-                                     get_font(), get_renderer());
+    auto kd =
+        new KaraokeTextDisplay(current->text.c_str(), {255, 255, 255, 255},
+                               get_font(), get_renderer());
+    kd->set_frame(current);
     int x = (get_screen_width() / 2) - (kd->get_w() / 2),
         y = (get_screen_height() / 2) - (kd->get_h() / 2);
     kd->set_x(x);
     kd->set_y(y);
     text_display = std::make_shared<KaraokeTextDisplay>(*kd);
+  } else {
+    text_display->update();
   }
 }
 shared_ptr<KaraokeTextDisplay> App::get_text_display() { return text_display; }

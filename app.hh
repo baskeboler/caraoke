@@ -37,7 +37,7 @@ private:
   Mix_Music *gSong;
   FrameVec frames;
   shared_ptr<TextFrame> current_frame;
-  shared_ptr<KaraokeTextDisplay> text_display;
+  shared_ptr<KaraokeTextDisplay> text_display, text_progress;
 
 public:
   static shared_ptr<App> get_instance();

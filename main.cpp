@@ -63,7 +63,7 @@ int  main(int argc, char **argv) {
     if (!loadMedia()) {
       fprintf(stderr, "Failed to load media\n");
     } else {
-      SDL_Color textColor = {255, 0, 0, 255};
+      SDL_Color textColor = {255, 255, 255, 255};
     
       loadMusic();
       Mix_PlayMusic(app->get_song(), 1);
@@ -99,6 +99,7 @@ int  main(int argc, char **argv) {
           }
         }
         app->update_frame();
+        app->get_text_display()->update();
         // cout << "elapsed: " << app->elapsed_seconds() << endl;
         SDL_SetRenderDrawColor(app->get_renderer(),128,128,128,255);
         SDL_RenderClear(app->get_renderer());
