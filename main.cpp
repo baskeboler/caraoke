@@ -1,14 +1,16 @@
-#include "globals.h"
-#include "loader.h"
-#include "text.h"
-#include "texture.h"
+#include "globals.hh"
+#include "loader.hh"
+#include "text.hh"
+#include "texture.hh"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
-#include <pthread.h>
+// #include <pthread.h>
 #include <stdio.h>
-#include "sdl_utils.h"
-#include "audio.h"
+#include "sdl_utils.hh"
+#include "audio.hh"
+#include <iostream>
+using std::cout, std::cerr, std::endl;
 // Screen dimension constants
 // extern const int SCREEN_WIDTH;
 // extern const int SCREEN_HEIGHT;
@@ -26,9 +28,9 @@
  *
  *
  **/
-int print_frame(text_frame_t f) {
+int print_frame(TextFrame* f) {
   pthread_mutex_lock(&f->mutex);
-  printf("textframe(id=%d, %s, %d)\n", f->id, f->text, f->progress);
+  cout << "textframe(id=" << f->id << ", " << f->text << ", "<< f->progress << endl;
   pthread_mutex_unlock(&f->mutex);
   return 0;
 }
@@ -36,44 +38,41 @@ int print_frame(text_frame_t f) {
 /**
  *
  */
-int main(int argc, char **argv) {
-  printf("hello\n");
-  text_frame_init();
+int  main(int argc, char **argv) {
+  // text_frame_init();
   // for(int i = 0; i < 100; i++) {
   //   text_frame_t f = text_frame_create("algo de texto", 0);
   //   print_frame(f);
   // }
 
-  list_t l = load_json("song.json");
+  vector<TextFrame> l = load_json("song.json");
   // for
   // debug_frames(l);
   // Initialize SDL
   if (!sdl_init()) {
     fprintf(stderr, "Failed to init SDL\n");
-    return 1;
   } else {
 
     if (!loadMedia()) {
       fprintf(stderr, "Failed to load media\n");
-      return 1;
     } else {
       loadMusic();
       Mix_PlayMusic(gSong, 1);
       // Apply the image
-      BOOL quit = FALSE;
+      bool quit = false;
       SDL_Event e;
 
       while (!quit) {
         while(SDL_PollEvent(&e) != 0) {
           switch (e.type) {
             case SDL_QUIT: {
-              quit = TRUE;
+              quit = true;
               break;
             }
             case SDL_KEYDOWN: {
               switch (e.key.keysym.sym) {
                 case SDLK_q:{
-                  quit=TRUE;
+                  quit=true;
                   break;
                 }
                 default: break;
@@ -83,7 +82,7 @@ int main(int argc, char **argv) {
           }
         }
         SDL_BlitSurface(gHelloWorld, NULL, gScreenSurface, NULL);
-        texture_render(gTextTexture, 0, 0, gRenderer);
+        gTextTexture->render(0, 0);
         SDL_UpdateWindowSurface(gWindow);
         SDL_RenderPresent(gRenderer);
       }
@@ -96,7 +95,4 @@ int main(int argc, char **argv) {
   // Free resources and close SDL
   cleanup();
 
-  list_destroy(&l);
-
-  return 0;
 }

@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.14)
 
 project(caraoke)
 set(CMAKE_BUILD_TYPE Debug)
-set(SOURCE main.c text.c)
+set(SOURCES main.cpp text.cpp text.hh loader.hh loader.cpp  texture.hh texture.cpp globals.hh common.hh
+sdl_utils.hh sdl_utils.cpp audio.hh audio.cpp)
 find_package(Threads REQUIRED)
 # find_package(SDL REQUIRED VERSION 2)
 # find_package(SDL_sound REQUIRED)
@@ -17,8 +18,7 @@ include_directories(${APR_INCLUDE_DIR} ${JANSSON_INCLUDE_DIR} )
 
 set(APR_LIBRARIES -lapr-1)
 set(JANSSON_LIBRARIES -ljansson)
-add_executable(main main.c text.c text.h loader.h loader.c list.h list.c texture.h texture.c globals.h common.h
-sdl_utils.h sdl_utils.c audio.h audio.c)
+add_executable(main ${SOURCES})
 
 target_link_libraries(main Threads::Threads 
     ${APR_LIBRARIES}

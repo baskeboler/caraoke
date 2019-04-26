@@ -1,8 +1,8 @@
 #if !defined(SDL_UTILS_H)
 #define SDL_UTILS_H
 
-#include "globals.h"
-#include "common.h"
+#include "globals.hh"
+#include "common.hh"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -22,8 +22,8 @@
 // extern TTF_Font *gFont;
 // extern texture_t gTextTexture;
 
-extern BOOL sdl_init() ;
-extern BOOL loadMedia() ;
+extern bool sdl_init() ;
+extern bool loadMedia() ;
 extern void cleanup();
 #endif // SDL_UTILS_H
 
