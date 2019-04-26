@@ -17,5 +17,5 @@ typedef struct texture_struct {
 extern texture_t texture_init(int w, int h);
 extern status_t texture_free(texture_t t);
 extern status_t texture_load_from_rendered_text(texture_t t, char* text, SDL_Color text_color, TTF_Font* font, SDL_Renderer* renderer);
-
+extern status_t texture_render(texture_t t, int x, int y, SDL_Renderer* renderer);
 #endif // TEXTURE_H

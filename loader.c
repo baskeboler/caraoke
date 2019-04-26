@@ -1,5 +1,6 @@
 #include "loader.h"
 #include <jansson.h>
+#include <string.h>
 
 void debug_frames(list_t l) {
   text_frame_t d;

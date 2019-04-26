@@ -9,5 +9,6 @@ typedef int BOOL;
 typedef int status_t;
 #define STATUS_OK 0
 #define STATUS_ERROR_LIST_EMPTY 1
-
+#define STATUS_ERROR_TEXTURE_LOAD 2
+#define STATUS_ERROR_TEXTURE_CREATE 3
 #endif // COMMON_H

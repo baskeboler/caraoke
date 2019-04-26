@@ -35,5 +35,39 @@ status_t texture_load_from_rendered_text(texture_t t, char* text, SDL_Color text
         }
         SDL_FreeSurface(surface);
     }
-    return t->mTexture != NULL;
+    return STATUS_OK;
+}
+status_t texture_load(texture_t t, char* path, SDL_Renderer* renderer) {
+    SDL_Texture* texture = NULL;
+    status_t ret = STATUS_OK;
+    SDL_Surface * surface = IMG_Load(path);
+    if (surface == NULL) {
+           printf( "Unable to load image %s! SDL_image Error: %s\n", path, IMG_GetError() );
+           ret = STATUS_ERROR_TEXTURE_LOAD;
+    } else {
+                //Create texture from surface pixels
+        texture = SDL_CreateTextureFromSurface( renderer, surface );
+        if( texture == NULL )
+        {
+            ret = STATUS_ERROR_TEXTURE_CREATE;
+            printf( "Unable to create texture from %s! SDL Error: %s\n", path, SDL_GetError() );
+        } else {
+            texture_free(t);
+            t->mTexture = texture;
+            unsigned int format;
+            int access, w, h;
+            SDL_QueryTexture(texture, &format, &access, &w, &h);
+            t->mHeight = h;
+            t->mWidth = w;
+        }
+        
+        //Get rid of old loaded surface
+        SDL_FreeSurface( surface );
+    }
+    return ret;
+}
+status_t texture_render(texture_t t, int x, int y, SDL_Renderer* renderer) {
+    SDL_Rect rect = {x, y, t->mWidth, t->mHeight};
+    SDL_RenderCopy(renderer, t->mTexture, NULL, &rect);
+    return STATUS_OK;
 }
