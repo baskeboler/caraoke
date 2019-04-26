@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include "sdl_utils.hh"
 #include "audio.hh"
+#include "karaoke_text_display.hh"
+
 #include <iostream>
 using std::cout, std::cerr, std::endl;
 // Screen dimension constants
@@ -44,7 +46,9 @@ int  main(int argc, char **argv) {
   //   text_frame_t f = text_frame_create("algo de texto", 0);
   //   print_frame(f);
   // }
-
+  auto k = new KaraokeTextDisplay();
+  // k->render();
+  delete k;
   vector<TextFrame> l = load_json("song.json");
   // for
   // debug_frames(l);
@@ -56,9 +60,12 @@ int  main(int argc, char **argv) {
     if (!loadMedia()) {
       fprintf(stderr, "Failed to load media\n");
     } else {
+      SDL_Color textColor = {255, 0, 0, 255};
+    
       loadMusic();
       Mix_PlayMusic(Globals::gSong, 1);
       // Apply the image
+      auto kd = new KaraokeTextDisplay("The quick brown fox jumps over the lazy dog",textColor, Globals::gFont, Globals::gRenderer);
       bool quit = false;
       SDL_Event e;
 
@@ -82,12 +89,13 @@ int  main(int argc, char **argv) {
           }
         }
         SDL_BlitSurface(Globals::gHelloWorld, NULL, Globals::gScreenSurface, NULL);
-        Globals::gTextTexture->render(0, 0);
+        // Globals::gTextTexture->render(0, 0);
+        kd->render();
         SDL_UpdateWindowSurface(Globals::gWindow);
         SDL_RenderPresent(Globals::gRenderer);
       }
       // Update the surface
-
+      delete kd;
       // Wait two seconds
       // SDL_Delay(5000);
     }

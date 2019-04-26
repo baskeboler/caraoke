@@ -22,6 +22,8 @@ class Texture {
   int mHeight;
   
   public:
+  int get_w() const;
+  int get_h() const;
   Texture(SDL_Texture* tex, SDL_Renderer* ren): mTexture(tex), mRenderer(ren) {}
   void init(int w, int h);
   void free();
