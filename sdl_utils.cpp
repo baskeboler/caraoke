@@ -31,21 +31,21 @@ bool sdl_init() {
 
           // Create window
           SDL_Window * w; SDL_Renderer * renderer;
-          SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE,
+          SDL_CreateWindowAndRenderer(Globals::SCREEN_WIDTH, Globals::SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE,
           &w, &renderer);
-          gWindow=w;
-          gRenderer=renderer;
+          Globals::gWindow=w;
+          Globals::gRenderer=renderer;
         //    SDL_WINDOWPOS_UNDEFINED,
         //                              SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
         //                              SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-          if (gWindow == NULL) {
+          if (Globals::gWindow == NULL) {
             cerr << "Window could not be created! SDL_Error: " <<
                    SDL_GetError() << endl;
             success = false;
           } else {
             // Get window surface
             
-            gScreenSurface=SDL_GetWindowSurface(gWindow);
+            Globals::gScreenSurface=SDL_GetWindowSurface(Globals::gWindow);
             // gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
           }
         }
@@ -60,19 +60,19 @@ bool loadMedia() {
   // Loading success flag
   bool success = true;
 
-  gFont=TTF_OpenFont("Bangers-Regular.ttf", 28);
+  Globals::gFont=TTF_OpenFont("Bangers-Regular.ttf", 28);
 
-  if (gFont == nullptr) {
+  if (Globals::gFont == nullptr) {
     printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
     success = false;
   } else {
     // Render text
     SDL_Color textColor = {255, 0, 0, 255};
-    gTextTexture.reset(new Texture(nullptr, gRenderer));//texture_init(100, 100);
-    gTextTexture->init(100, 100);
-    gTextTexture->load_from_rendered_text(
+    Globals::gTextTexture.reset(new Texture(nullptr, Globals::gRenderer));//texture_init(100, 100);
+    Globals::gTextTexture->init(100, 100);
+    Globals::gTextTexture->load_from_rendered_text(
             "The quick brown fox jumps over the lazy dog",
-            textColor, gFont);
+            textColor, Globals::gFont);
     // if (STATUS_OK != gTextTexture->load_from_rendered_text(
     //         "The quick brown fox jumps over the lazy dog",
     //         textColor, gFont)) {
@@ -81,10 +81,10 @@ bool loadMedia() {
     // }
   }
   // Load splash image
-  gHelloWorld=      
+  Globals::gHelloWorld=      
     // SDL_LoadBMP("02_getting_an_image_on_the_screen/hello_world.bmp");
       IMG_Load("bg.jpeg");
-  if (gHelloWorld == nullptr) {
+  if (Globals::gHelloWorld == nullptr) {
     cerr << "Unable to load image bg.jpeg! SDL Error: " << 
            SDL_GetError() << endl;
     success = false;
@@ -95,12 +95,12 @@ bool loadMedia() {
 
 void cleanup() {
   // Deallocate surface
-  SDL_FreeSurface(gHelloWorld);
-  gHelloWorld=nullptr;
+  SDL_FreeSurface(Globals::gHelloWorld);
+  Globals::gHelloWorld=nullptr;
 
   // Destroy window
-  SDL_DestroyWindow(gWindow);
-  gWindow=nullptr;
+  SDL_DestroyWindow(Globals::gWindow);
+  Globals::gWindow=nullptr;
 
   // Quit SDL subsystems
   SDL_Quit();

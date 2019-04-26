@@ -57,7 +57,7 @@ int  main(int argc, char **argv) {
       fprintf(stderr, "Failed to load media\n");
     } else {
       loadMusic();
-      Mix_PlayMusic(gSong, 1);
+      Mix_PlayMusic(Globals::gSong, 1);
       // Apply the image
       bool quit = false;
       SDL_Event e;
@@ -81,10 +81,10 @@ int  main(int argc, char **argv) {
             default: break;
           }
         }
-        SDL_BlitSurface(gHelloWorld, NULL, gScreenSurface, NULL);
-        gTextTexture->render(0, 0);
-        SDL_UpdateWindowSurface(gWindow);
-        SDL_RenderPresent(gRenderer);
+        SDL_BlitSurface(Globals::gHelloWorld, NULL, Globals::gScreenSurface, NULL);
+        Globals::gTextTexture->render(0, 0);
+        SDL_UpdateWindowSurface(Globals::gWindow);
+        SDL_RenderPresent(Globals::gRenderer);
       }
       // Update the surface
 

@@ -7,19 +7,24 @@
 #include <memory>
 
 using std::shared_ptr;
-// Screen dimension constants
-static const int SCREEN_WIDTH = 800;
-static const int SCREEN_HEIGHT = 600;
 
-// The window we'll be rendering to
-static SDL_Window * gWindow = nullptr;
-static SDL_Renderer * gRenderer = nullptr;
+struct  Globals {
 
-// The surface contained by the window
-static SDL_Surface* gScreenSurface = nullptr;
-static SDL_Surface* gHelloWorld = nullptr;
-static TTF_Font* gFont = nullptr;
-static shared_ptr<Texture> gTextTexture = nullptr;
+  // Screen dimension constants
+  static int SCREEN_WIDTH ;
+  static int SCREEN_HEIGHT;
 
-static Mix_Music* gSong = nullptr;
+  // The window we'll be rendering to
+  static SDL_Window *gWindow;
+  static SDL_Renderer *gRenderer ;
+
+  // The surface contained by the window
+  static SDL_Surface *gScreenSurface;
+  static SDL_Surface *gHelloWorld;
+  static TTF_Font *gFont;
+  static shared_ptr<Texture> gTextTexture;
+
+  static Mix_Music *gSong;
+};
+
 #endif // GLOBALS_H

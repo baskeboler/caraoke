@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(caraoke)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_TYPE Debug)
-set(SOURCES main.cpp text.cpp text.hh loader.hh loader.cpp  texture.hh texture.cpp globals.hh common.hh
+set(SOURCES main.cpp text.cpp text.hh loader.hh loader.cpp  texture.hh texture.cpp globals.hh globals.cpp common.hh
 sdl_utils.hh sdl_utils.cpp audio.hh audio.cpp)
 find_package(Threads REQUIRED)
 # find_package(SDL REQUIRED VERSION 2)
