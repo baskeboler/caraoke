@@ -6,8 +6,7 @@ private:
   int x, y, w, h;
 
 public:
-  
-  Sprite(int x, int y);
+  Sprite(int x, int y, int w = 0, int h = 0);
   Sprite();
 
   int get_x() const;
@@ -21,7 +20,7 @@ public:
   void set_h(int h);
 
   virtual void render() = 0;
-  
+
   virtual ~Sprite();
 };
 

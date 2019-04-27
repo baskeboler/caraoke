@@ -1,6 +1,6 @@
 #include "sprite.hh"
 
-Sprite::Sprite(int x, int y) : x(x), y(y), w(0), h(0) {}
+Sprite::Sprite(int x, int y, int w, int h) : x(x), y(y), w(w), h(h) {}
 Sprite::Sprite() : Sprite(0, 0) {}
 
 int Sprite::get_x() const { return x; }

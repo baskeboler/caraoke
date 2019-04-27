@@ -2,20 +2,24 @@ cmake_minimum_required(VERSION 3.14)
 
 project(caraoke)
 set(CMAKE_CXX_STANDARD 17)
-set(SOURCES 
-    main.cpp 
-    text.cpp text.hh 
-    loader.hh loader.cpp  
-    texture.hh texture.cpp 
-    globals.hh globals.cpp 
-    common.hh
-    sdl_utils.hh sdl_utils.cpp 
-    audio.hh audio.cpp
-    sprite.hh sprite.cpp
-    karaoke_text_display.hh karaoke_text_display.cpp
-    app.hh app.cpp
-    event_handler.hh event_handler.cpp
-    texture_sprite.hh texture_sprite.cpp)
+# set(CMAKE_PREF ./src)
+# include_directories(${CMAKE_HOME_DIRECTORY}/src)
+aux_source_directory("src" SOURCES)
+# set(SOURCES 
+#     main.cpp 
+#     text.cpp text.hh 
+#     loader.hh loader.cpp  
+#     texture.hh texture.cpp 
+#     globals.hh globals.cpp 
+#     common.hh
+#     sdl_utils.hh sdl_utils.cpp 
+#     audio.hh audio.cpp
+#     sprite.hh sprite.cpp
+#     karaoke_text_display.hh karaoke_text_display.cpp
+#     app.hh app.cpp
+#     event_handler.hh event_handler.cpp
+#     texture_sprite.hh texture_sprite.cpp
+#     rectangle.hh rectangle.cpp)
 find_package(Threads REQUIRED)
 # find_package(SDL REQUIRED VERSION 2)
 # find_package(SDL_sound REQUIRED)

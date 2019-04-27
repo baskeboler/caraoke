@@ -13,6 +13,8 @@
 #include <apr_time.h>
 #include <iostream>
 #include <stdio.h>
+#include "rectangle.hh"
+
 using std::cout, std::cerr, std::endl;
 
 /**
@@ -70,6 +72,7 @@ int main(int argc, char **argv) {
       SDL_Event e;
       auto usertype = SDL_RegisterEvents(1);
       cout << "usertype: " << usertype << endl;
+      auto r = std::make_shared<Rectangle>(100, 100, 100 , 100);
       while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
           switch (e.type) {
@@ -100,8 +103,9 @@ int main(int argc, char **argv) {
           //     app->get_screen_surface(), NULL);
           app->handle_event(e);
           // app->get_text_display()->render();
-          // SDL_UpdateWindowSurface(app->get_window());
-          // SDL_RenderPresent(app->get_renderer());
+          r->render();
+          SDL_UpdateWindowSurface(app->get_window());
+          SDL_RenderPresent(app->get_renderer());
         }
         // Update the surface
         // SDL_UpdateWindowSurface(app->get_window());
