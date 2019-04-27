@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.14)
 
 project(caraoke)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_BUILD_TYPE Debug)
 set(SOURCES 
     main.cpp 
     text.cpp text.hh 
@@ -15,7 +14,8 @@ set(SOURCES
     sprite.hh sprite.cpp
     karaoke_text_display.hh karaoke_text_display.cpp
     app.hh app.cpp
-    event_handler.hh event_handler.cpp)
+    event_handler.hh event_handler.cpp
+    texture_sprite.hh texture_sprite.cpp)
 find_package(Threads REQUIRED)
 # find_package(SDL REQUIRED VERSION 2)
 # find_package(SDL_sound REQUIRED)

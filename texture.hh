@@ -32,4 +32,5 @@ class Texture {
   void render(int x, int y);
 };
 
+
 #endif // TEXTURE_H

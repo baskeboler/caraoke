@@ -2,6 +2,7 @@
 #include "texture.hh"
 #include <iostream>
 #include "app.hh"
+#include "texture_sprite.hh"
 
 using std::cout, std::cerr, std::endl;
 
@@ -70,7 +71,15 @@ bool loadMedia() {
             "The quick brown fox jumps over the lazy dog",
             textColor, app->get_font());
     app->set_text_texture(t);
+
+    auto bg = std::make_shared<Texture>(nullptr, app->get_renderer());
+    bg->init(100, 100);
+    bg->load("bg.jpeg");
+    // new Sprite()
   }
+  auto bg = make_shared<TextureSprite>("bg.jpeg");
+  bg->set_x(0); bg->set_y(0);
+  app->register_handler(bg);
   app->set_hello_world(IMG_Load("bg.jpeg"));
   if (app->get_hello_world() == nullptr) {
     cerr << "Unable to load image bg.jpeg! SDL Error: " << 
