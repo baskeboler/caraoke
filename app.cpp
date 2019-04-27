@@ -1,12 +1,21 @@
 #include "app.hh"
 #include <iostream>
-using std::shared_ptr, std::cout, std::endl;
+#include <memory>
+
+using std::shared_ptr, std::cout, std::endl, std::stringstream;
 
 shared_ptr<App> App::_instance{};
 
+App::App()
+    : SCREEN_HEIGHT(Globals::SCREEN_HEIGHT),
+      SCREEN_WIDTH(Globals::SCREEN_WIDTH), gWindow(Globals::gWindow),
+      gRenderer(Globals::gRenderer), gScreenSurface(Globals::gScreenSurface),
+      gHelloWorld(Globals::gHelloWorld), gFont(Globals::gFont),
+      gTextTexture(Globals::gTextTexture), gSong(Globals::gSong) {}
+
 shared_ptr<App> App::get_instance() {
   if (!_instance) {
-    _instance.reset(new App);
+    _instance = std::make_shared<App>(std::move(App{}));
   }
   return _instance;
 }
@@ -36,10 +45,21 @@ App::~App() {
   // Deallocate surface
   SDL_FreeSurface(gHelloWorld);
   gHelloWorld = nullptr;
+  SDL_FreeSurface(gScreenSurface);
+  gScreenSurface = nullptr;
+
+  SDL_DestroyRenderer(gRenderer);
+  gRenderer = nullptr;
 
   // Destroy window
   SDL_DestroyWindow(gWindow);
   gWindow = nullptr;
+
+  TTF_CloseFont(gFont);
+  gFont = nullptr;
+
+  Mix_FreeMusic(gSong);
+  gSong = nullptr;
 
   // Quit SDL subsystems
   SDL_Quit();
@@ -48,8 +68,8 @@ App::~App() {
 void App::start_timer() { start = apr_time_now(); }
 double App::elapsed_seconds() {
   apr_time_t now = apr_time_now();
-  int now_msec = apr_time_as_msec(now);
-  int start_msec = apr_time_as_msec(start);
+  long now_msec = apr_time_as_msec(now);
+  long start_msec = apr_time_as_msec(start);
   return 1.0 * (now_msec - start_msec) / 1000;
 }
 
@@ -68,10 +88,6 @@ void App::update_frame() {
   if (current && current != current_frame) {
     cout << "new frame: " << current->text << endl;
     current_frame = current;
-    // auto t = new Texture(nullptr, get_renderer());
-    // t->init(100, 100);
-    // t->load_from_rendered_text(current->text, {255, 255, 255, 255},
-    // get_font()); gTextTexture.reset(t);
 
     auto kd =
         new KaraokeTextDisplay(current->text.c_str(), {255, 255, 255, 255},
@@ -81,7 +97,14 @@ void App::update_frame() {
         y = (get_screen_height() / 2) - (kd->get_h() / 2);
     kd->set_x(x);
     kd->set_y(y);
+
+    if (text_display) {
+      cout << "unregistering handler" << endl;
+      unregister_handler(text_display);
+    }
+    // text_display.reset();
     text_display = std::make_shared<KaraokeTextDisplay>(*kd);
+    register_handler(text_display);
   } else {
     text_display->update();
   }
@@ -91,3 +114,37 @@ void App::set_text_display(shared_ptr<KaraokeTextDisplay> t) {
   text_display = t;
 }
 shared_ptr<TextFrame> App::get_current_frame() { return current_frame; }
+
+void App::register_handler(shared_ptr<EventHandler> handler) {
+  cout << "Registering handler " << handler->get_handler_id() << endl;
+  handlers.push_back(handler);
+}
+
+void App::unregister_handler(shared_ptr<EventHandler> handler) {
+  for (auto i = handlers.begin(); i != handlers.end();) {
+    if (*i == handler) {
+      cout << "Removed handler " << handler->get_handler_id() << endl;
+      i = handlers.erase(i);
+    } else {
+      ++i;
+    }
+  }
+}
+
+void App::handle_event(SDL_Event &e) {
+  update_frame();
+  SDL_SetRenderDrawColor(get_renderer(), 128, 128, 128, 255);
+  SDL_RenderClear(get_renderer());
+  SDL_BlitSurface(get_hello_world(), NULL, get_screen_surface(), NULL);
+  if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+    cout << "window size changed " << e.window.data1 
+    << ", " << e.window.data2 <<  endl;
+    set_screen_width(e.window.data1);
+    set_screen_height(e.window.data2);
+  }
+  for (auto h : handlers) {
+    h->handle_event(e);
+  }
+  SDL_UpdateWindowSurface(get_window());
+  SDL_RenderPresent(get_renderer());
+}

@@ -14,7 +14,8 @@ set(SOURCES
     audio.hh audio.cpp
     sprite.hh sprite.cpp
     karaoke_text_display.hh karaoke_text_display.cpp
-    app.hh app.cpp)
+    app.hh app.cpp
+    event_handler.hh event_handler.cpp)
 find_package(Threads REQUIRED)
 # find_package(SDL REQUIRED VERSION 2)
 # find_package(SDL_sound REQUIRED)

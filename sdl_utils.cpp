@@ -57,7 +57,6 @@ bool loadMedia() {
   // Loading success flag
   bool success = true;
   auto app = App::get_instance();
-  // Globals::gFont=TTF_OpenFont("Bangers-Regular.ttf", 28);
   app->set_font(TTF_OpenFont("Bangers-Regular.ttf", 28));
   if (app->get_font() == nullptr) {
     printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
@@ -65,23 +64,13 @@ bool loadMedia() {
   } else {
     // Render text
     SDL_Color textColor = {255, 0, 0, 255};
-    auto t = new Texture(nullptr, app->get_renderer());
+    auto t = std::make_shared<Texture>(nullptr, app->get_renderer());
     t->init(100, 100);
     t->load_from_rendered_text(
             "The quick brown fox jumps over the lazy dog",
             textColor, app->get_font());
-    app->set_text_texture(shared_ptr<Texture>(t));//texture_init(100, 100);
-    // if (STATUS_OK != gTextTexture->load_from_rendered_text(
-    //         "The quick brown fox jumps over the lazy dog",
-    //         textColor, gFont)) {
-    //   printf("Failed to render text texture!\n");
-    //   success = false;
-    // }
+    app->set_text_texture(t);
   }
-  // Load splash image
-  // Globals::gHelloWorld=      
-    // SDL_LoadBMP("02_getting_an_image_on_the_screen/hello_world.bmp");
-      // IMG_Load("bg.jpeg");
   app->set_hello_world(IMG_Load("bg.jpeg"));
   if (app->get_hello_world() == nullptr) {
     cerr << "Unable to load image bg.jpeg! SDL Error: " << 

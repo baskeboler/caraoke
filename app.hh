@@ -1,5 +1,6 @@
 #if !defined(APP_H)
 #define APP_H
+#include "event_handler.hh"
 #include "globals.hh"
 #include "karaoke_text_display.hh"
 #include "text.hh"
@@ -8,19 +9,19 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include <apr_time.h>
+#include <functional>
+#include <iostream>
+#include <map>
 #include <memory>
+#include <vector>
 
+using std::cout, std::endl;
+using std::map;
 using std::shared_ptr;
-
+using std::vector;
 class App {
 private:
   static shared_ptr<App> _instance;
-  App()
-      : SCREEN_HEIGHT(Globals::SCREEN_HEIGHT),
-        SCREEN_WIDTH(Globals::SCREEN_WIDTH), gWindow(Globals::gWindow),
-        gRenderer(Globals::gRenderer), gScreenSurface(Globals::gScreenSurface),
-        gHelloWorld(Globals::gHelloWorld), gFont(Globals::gFont),
-        gTextTexture(Globals::gTextTexture), gSong(Globals::gSong) {}
   // Screen dimension constants
   int SCREEN_WIDTH;
   int SCREEN_HEIGHT;
@@ -38,6 +39,11 @@ private:
   FrameVec frames;
   shared_ptr<TextFrame> current_frame;
   shared_ptr<KaraokeTextDisplay> text_display, text_progress;
+
+  // map<SDL_EventType, vector<shared_ptr<EventHandler>>> handlers;
+  vector<shared_ptr<EventHandler>> handlers;
+public:
+  App();
 
 public:
   static shared_ptr<App> get_instance();
@@ -71,6 +77,12 @@ public:
   void set_font(TTF_Font *arg);
   void set_text_texture(shared_ptr<Texture> arg);
   void set_song(Mix_Music *arg);
+
+  void register_handler( shared_ptr<EventHandler> handler);
+
+  void unregister_handler(shared_ptr<EventHandler> handler);
+
+  void handle_event(SDL_Event &e);
 };
 
 #endif // APP_H

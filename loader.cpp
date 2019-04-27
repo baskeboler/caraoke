@@ -24,7 +24,7 @@ FrameVec load_json(const char *path) {
     const char *text = json_string_value(val);
     val = json_object_get(json_frame, "offset");
     double offset = json_number_value(val) / 1000.0;
-    printf("[text] %f -- %s\n", offset , text);
+    // printf("[text] %f -- %s\n", offset , text);
     val = json_object_get(json_frame, "event_offsets");
      auto frame = new TextFrame(text, 0);
     frame->offset_seconds = offset;

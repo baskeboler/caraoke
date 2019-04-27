@@ -1,9 +1,16 @@
 #include "karaoke_text_display.hh"
+#include "app.hh"
 #include <iostream>
-using std::cout, std::cerr, std::endl;
+#include <sstream>
+using std::cout, std::cerr, std::endl, std::stringstream;
 
-KaraokeTextDisplay::KaraokeTextDisplay() : Sprite() {}
-KaraokeTextDisplay::~KaraokeTextDisplay() {}
+KaraokeTextDisplay::KaraokeTextDisplay()
+    : Sprite(), EventHandler(), renderer(nullptr), font(nullptr), progress(0) {}
+
+KaraokeTextDisplay::~KaraokeTextDisplay() {
+  // App::get_instance()->unregister_handler(shared_from_this());
+}
+
 KaraokeTextDisplay::KaraokeTextDisplay(const char *text, SDL_Color color,
                                        TTF_Font *font, SDL_Renderer *renderer)
     : KaraokeTextDisplay() {
@@ -44,3 +51,16 @@ void KaraokeTextDisplay::render() {
 }
 
 void KaraokeTextDisplay::set_frame(shared_ptr<TextFrame> f) { text_frame = f; }
+
+void KaraokeTextDisplay::handle_event(SDL_Event &e) {
+  update();
+
+  render();
+
+}
+
+std::string KaraokeTextDisplay::get_handler_id() const {
+  stringstream ss;
+  ss << "karaoke-text-display-" << get_numerical_id();
+  return ss.str();
+}
