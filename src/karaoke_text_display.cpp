@@ -8,7 +8,6 @@ KaraokeTextDisplay::KaraokeTextDisplay()
     : Sprite(), EventHandler(), renderer(nullptr), font(nullptr), progress(0) {}
 
 KaraokeTextDisplay::~KaraokeTextDisplay() {
-  // App::get_instance()->unregister_handler(shared_from_this());
 }
 
 KaraokeTextDisplay::KaraokeTextDisplay(const char *text, SDL_Color color,

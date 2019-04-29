@@ -76,38 +76,7 @@ double App::elapsed_seconds() {
 void App::set_frames(FrameVec &&vec) { frames = vec; }
 
 void App::update_frame() {
-  shared_ptr<TextFrame> current;
-  auto elapsed = elapsed_seconds();
-  for (auto fr : frames) {
-    if (fr->offset_seconds <= elapsed) {
-      current = fr;
-    } else {
-      break;
-    }
-  }
-  if (current && current != current_frame) {
-    cout << "new frame: " << current->text << endl;
-    current_frame = current;
 
-    auto kd =
-        new KaraokeTextDisplay(current->text.c_str(), {255, 255, 255, 255},
-                               get_font(), get_renderer());
-    kd->set_frame(current);
-    int x = (get_screen_width() / 2) - (kd->get_w() / 2),
-        y = (get_screen_height() / 2) - (kd->get_h() / 2);
-    kd->set_x(x);
-    kd->set_y(y);
-
-    if (text_display) {
-      cout << "unregistering handler" << endl;
-      unregister_handler(text_display);
-    }
-    // text_display.reset();
-    text_display = std::make_shared<KaraokeTextDisplay>(*kd);
-    register_handler(text_display);
-  } else {
-    text_display->update();
-  }
 }
 shared_ptr<KaraokeTextDisplay> App::get_text_display() { return text_display; }
 void App::set_text_display(shared_ptr<KaraokeTextDisplay> t) {
@@ -132,7 +101,7 @@ void App::unregister_handler(shared_ptr<EventHandler> handler) {
 }
 
 void App::handle_event(SDL_Event &e) {
-  update_frame();
+  // update_frame();
   SDL_SetRenderDrawColor(get_renderer(), 128, 128, 128, 255);
   SDL_RenderClear(get_renderer());
   SDL_BlitSurface(get_hello_world(), NULL, get_screen_surface(), NULL);

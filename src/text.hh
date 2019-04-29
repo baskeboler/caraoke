@@ -32,11 +32,6 @@ struct TextFrame {
   void destroy();
 };
 
-// extern text_frame_t text_frame_create(const char * t, unsigned int progress);
-// extern unsigned int text_frame_advance(text_frame_t frame, unsigned int n);
-// extern unsigned int text_frame_init();
-// extern unsigned int text_frame_destroy();
-
 typedef vector<shared_ptr<TextFrame>> FrameVec;
 
 

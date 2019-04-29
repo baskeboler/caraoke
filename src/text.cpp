@@ -22,7 +22,6 @@ unsigned int text_frame_next_id() {
 }
 
 TextFrame::TextFrame(const char * t, unsigned int progress) {
-  // text_frame_t f = (text_frame_t) malloc(sizeof(struct text_frame_struct));
   id = text_frame_next_id();
   text = t;
   progress = progress;

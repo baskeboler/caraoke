@@ -42,6 +42,7 @@ private:
 
   // map<SDL_EventType, vector<shared_ptr<EventHandler>>> handlers;
   vector<shared_ptr<EventHandler>> handlers;
+
 public:
   App();
 
@@ -78,7 +79,7 @@ public:
   void set_text_texture(shared_ptr<Texture> arg);
   void set_song(Mix_Music *arg);
 
-  void register_handler( shared_ptr<EventHandler> handler);
+  void register_handler(shared_ptr<EventHandler> handler);
 
   void unregister_handler(shared_ptr<EventHandler> handler);
 
