@@ -10,6 +10,21 @@ using std::stringstream, std::string, std::make_shared, std::shared_ptr,
 string ThrillerScene::get_handler_id() const { return handler_id; }
 
 void ThrillerScene::handle_event(SDL_Event &e) {
+  switch (e.type) {
+  case SDL_KEYDOWN: {
+    switch (e.key.keysym.sym) {
+    case SDLK_ESCAPE: {
+      start_scene(SceneName::SceneTitle);
+      break;
+    }
+    default:
+      break;
+    }
+  }
+
+  default:
+    break;
+  }
   validate_window(e);
   update_frame();
   render();
@@ -42,26 +57,30 @@ bool ThrillerScene::init() {
 
     // Render text
     SDL_Color textColor = {255, 0, 0, 255};
-    auto t = std::make_shared<Texture>(nullptr, renderer);
-    t->init(100, 100);
-    t->load_from_rendered_text("The quick brown fox jumps over the lazy dog",
-                               textColor, font);
-    text_texture = t;
-    auto bg = std::make_shared<Texture>(nullptr, renderer);
-    bg->init(100, 100);
-    bg->load("bg.jpeg");
+    // auto t = std::make_shared<Texture>(nullptr, renderer);
+    // t->init(100, 100);
+    // t->load_from_rendered_text("The quick brown fox jumps over the lazy dog",
+    //                            textColor, font);
+    // text_texture = t;
+    // auto bg = std::make_shared<Texture>(nullptr, renderer);
+    // bg->init(100, 100);
+    // bg->load("bg.jpeg");
     text_display = std::make_shared<KaraokeTextDisplay>(
         "Micheal Jackson - Thriller", textColor, big_font, renderer);
   }
   bg = make_shared<TextureSprite>("bg.jpeg");
   bg->set_x(0);
   bg->set_y(0);
+
+  update_position();
   FrameVec l = load_json("song.json");
   frames = std::move(l);
+
   const char *path = "song.mp3";
   song = audio_load_music((char *)path);
   Mix_PlayMusic(song, 1);
   start_timer();
+
   time_texture = make_shared<Texture>(nullptr, renderer);
   time_texture->init(100, 100);
   time_texture->load_from_rendered_text(string("00:00"), {255, 255, 255, 255},
@@ -85,7 +104,11 @@ void ThrillerScene::update_time_display(double dsecs) {
 }
 void ThrillerScene::start_timer() { start = apr_time_now(); }
 
-ThrillerScene::~ThrillerScene() {}
+ThrillerScene::~ThrillerScene() {
+  TTF_CloseFont(font);
+  TTF_CloseFont(big_font);
+  Mix_FreeMusic(song);
+}
 
 double ThrillerScene::elapsed_seconds() {
   apr_time_t now = apr_time_now();
@@ -155,3 +178,6 @@ void ThrillerScene::update_position() {
   bg->set_x(w / 2 - bg_w / 2);
   bg->set_y(w / 2 - bg_h / 2);
 }
+
+void ThrillerScene::on_scene_enter() { init(); }
+void ThrillerScene::on_scene_exit() { Mix_HaltMusic(); }

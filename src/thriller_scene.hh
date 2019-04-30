@@ -43,6 +43,10 @@ private:
   void validate_window(SDL_Event &e);
   void update_position();
   void update_time_display(double secs);
+
+protected:
+  void on_scene_enter() override;
+  void on_scene_exit() override;
 };
 
 #endif // THRILLER_SCENE_HH

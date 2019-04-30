@@ -55,15 +55,7 @@ public:
 
   shared_ptr<Scene> get_current_scene() { return current_scene; }
 
-  void set_current_scene(shared_ptr<Scene> scene) {
-    if (scene) {
-      if (current_scene) {
-        unregister_handler(current_scene);
-      }
-      current_scene = scene;
-      register_handler(scene);
-    }
-  }
+  void set_current_scene(shared_ptr<Scene> scene);
 };
 
 #endif // APP_H

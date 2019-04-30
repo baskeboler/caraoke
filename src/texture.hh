@@ -31,6 +31,7 @@ public:
   void load_from_rendered_text(const string &text, SDL_Color text_color,
                                TTF_Font *font);
   void render(int x, int y);
+  ~Texture();
 };
 
 #endif // TEXTURE_H

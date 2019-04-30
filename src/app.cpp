@@ -1,8 +1,11 @@
 #include "app.hh"
+#include "thriller_scene.hh"
+#include "title_scene.hh"
 #include <iostream>
 #include <memory>
 
-using std::shared_ptr, std::cout, std::endl, std::stringstream;
+using std::shared_ptr, std::cout, std::endl, std::stringstream,
+    std::make_shared;
 
 shared_ptr<App> App::_instance{};
 
@@ -10,9 +13,9 @@ App::App()
     : SCREEN_HEIGHT(Globals::SCREEN_HEIGHT),
       SCREEN_WIDTH(Globals::SCREEN_WIDTH), gWindow(Globals::gWindow),
       gRenderer(Globals::gRenderer), gScreenSurface(Globals::gScreenSurface)
-      // gHelloWorld(Globals::gHelloWorld), gFont(Globals::gFont),
-      // gTextTexture(Globals::gTextTexture), gSong(Globals::gSong) 
-      {}
+// gHelloWorld(Globals::gHelloWorld), gFont(Globals::gFont),
+// gTextTexture(Globals::gTextTexture), gSong(Globals::gSong)
+{}
 
 shared_ptr<App> App::get_instance() {
   if (!_instance) {
@@ -50,6 +53,17 @@ App::~App() {
   SDL_Quit();
 }
 
+void App::set_current_scene(shared_ptr<Scene> scene) {
+  if (scene) {
+    if (current_scene) {
+      unregister_handler(current_scene);
+      current_scene->on_scene_exit();
+    }
+    current_scene = scene;
+    current_scene->on_scene_enter();
+    register_handler(scene);
+  }
+}
 void App::register_handler(shared_ptr<EventHandler> handler) {
   cout << "Registering handler " << handler->get_handler_id() << endl;
   handlers.push_back(handler);
@@ -71,11 +85,24 @@ void App::handle_event(SDL_Event &e) {
   SDL_SetRenderDrawColor(get_renderer(), 128, 128, 128, 255);
   // SDL_RenderClear(get_renderer());
   // SDL_BlitSurface(get_hello_world(), NULL, get_screen_surface(), NULL);
-  if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
-    cout << "window size changed " << e.window.data1 
-    << ", " << e.window.data2 <<  endl;
+  if (e.type == SDL_WINDOWEVENT &&
+      e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+    cout << "window size changed " << e.window.data1 << ", " << e.window.data2
+         << endl;
     set_screen_width(e.window.data1);
     set_screen_height(e.window.data2);
+  }
+  if (e.type == SceneEvents::StartNewScene) {
+    // SceneName sname = e.user.data1;
+    if (e.user.data1 == (void *)SceneName::SceneThriller) {
+      auto thr = make_shared<ThrillerScene>();
+      // thr->init();
+      set_current_scene(thr);
+    } else if (e.user.data1 == (void *)SceneName::SceneTitle) {
+      auto title = make_shared<TitleScene>(get_renderer());
+      set_current_scene(title);
+    }
+    cout << "Handling StartNewScene event for scene: " << e.user.data1 << endl;
   }
   for (auto h : handlers) {
     h->handle_event(e);

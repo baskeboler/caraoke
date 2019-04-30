@@ -7,7 +7,7 @@ Texture::Texture(SDL_Texture *tex, SDL_Renderer *ren)
 void Texture::init(int w, int h) {
   this->mHeight = h;
   this->mWidth = w;
-  this->mTexture = NULL;
+  this->mTexture = nullptr;
 }
 
 int Texture::get_w() const { return mWidth; }
@@ -18,7 +18,7 @@ void Texture::free() {
     mTexture = nullptr;
   }
 }
-
+Texture::~Texture() { free(); }
 void Texture::load_from_rendered_text(const string &text, SDL_Color text_color,
                                       TTF_Font *font) {
   free();

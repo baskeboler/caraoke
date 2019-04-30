@@ -8,6 +8,7 @@
 #include "text.hh"
 #include "texture.hh"
 #include "thriller_scene.hh"
+#include "title_scene.hh"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -39,9 +40,8 @@ int main(int argc, char **argv) {
     cerr << "Failed to init SDL" << endl;
   } else {
 
-    auto scene = std::make_shared<ThrillerScene>();
-    scene->init();
-    // app->register_handler(scene);
+    auto scene = std::make_shared<TitleScene>(app->get_renderer());
+    // scene->init();
     app->set_current_scene(scene);
     bool quit = false;
     SDL_Event e;
