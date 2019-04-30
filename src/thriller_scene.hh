@@ -20,10 +20,10 @@ class ThrillerScene : public Scene {
   shared_ptr<TextFrame> current_frame;
   shared_ptr<KaraokeTextDisplay> text_display, text_progress;
   shared_ptr<TextureSprite> bg;
-  shared_ptr<Texture> text_texture;
+  shared_ptr<Texture> text_texture, time_texture;
   string handler_id;
   apr_time_t start;
-
+  int last_time_update;
 public:
   void start_timer();
   double elapsed_seconds();
@@ -41,6 +41,7 @@ public:
   private:
   void validate_window(SDL_Event& e) ;
   void update_position() ;
+  void update_time_display(double secs);
 };
 
 #endif // THRILLER_SCENE_HH

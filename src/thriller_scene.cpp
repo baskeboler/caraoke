@@ -19,6 +19,7 @@ void ThrillerScene::render() {
   SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
   SDL_RenderClear(renderer);
   bg->render();
+  time_texture->render(32,32);
   text_display->render();
 }
 
@@ -62,9 +63,26 @@ bool ThrillerScene::init() {
   song = audio_load_music((char *)path);
   Mix_PlayMusic(song, 1);
   start_timer();
+  time_texture = make_shared<Texture>(nullptr, renderer);
+  time_texture->init(100,100);
+  time_texture->load_from_rendered_text(string("00:00"), {255,255,255,255},font);
+  last_time_update = 0;
+  
   return success;
 }
 
+void ThrillerScene::update_time_display(double dsecs) {
+ int secs = dsecs, mins = secs / 60;
+
+  if (secs > last_time_update) {
+
+    char time_str[16];
+    snprintf(time_str, 15, "%02d:%02d", mins, secs % 60);
+    time_texture->free();
+    time_texture->load_from_rendered_text(time_str, {255,255,255,255}, font);
+    last_time_update = secs;
+  }
+}
 void ThrillerScene::start_timer() { start = apr_time_now(); }
 
 ThrillerScene::~ThrillerScene() {}
@@ -89,6 +107,7 @@ void ThrillerScene::update_frame() {
       break;
     }
   }
+  update_time_display(elapsed);
   if (current && current != current_frame) {
     cout << "new frame: " << current->text << endl;
     current_frame = current;

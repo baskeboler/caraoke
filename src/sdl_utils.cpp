@@ -1,8 +1,12 @@
 #include "sdl_utils.hh"
-#include "texture.hh"
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+
 #include <iostream>
 #include "app.hh"
-#include "texture_sprite.hh"
 
 using std::cout, std::cerr, std::endl;
 
@@ -45,7 +49,8 @@ bool sdl_init() {
             success = false;
           } else {
             // Get window surface
-            app->set_screen_surface(SDL_GetWindowSurface(app->get_window()));
+            SDL_Surface* s = SDL_GetWindowSurface(w);
+            app->set_screen_surface(s);
           }
         }
       }
@@ -54,40 +59,3 @@ bool sdl_init() {
 
   return success;
 }
-
-bool loadMedia() {
-  // Loading success flag
-  bool success = true;
-  // auto app = App::get_instance();
-  // app->set_font(TTF_OpenFont("Bangers-Regular.ttf", 28));
-  // if (app->get_font() == nullptr) {
-  //   printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
-  //   success = false;
-  // } else {
-    // Render text
-    // SDL_Color textColor = {255, 0, 0, 255};
-    // auto t = std::make_shared<Texture>(nullptr, app->get_renderer());
-    // t->init(100, 100);
-    // t->load_from_rendered_text(
-    //         "The quick brown fox jumps over the lazy dog",
-    //         textColor, app->get_font());
-    // app->set_text_texture(t);
-
-    // auto bg = std::make_shared<Texture>(nullptr, app->get_renderer());
-    // bg->init(100, 100);
-    // bg->load("bg.jpeg");
-    // new Sprite()
-  // }
-  // auto bg = make_shared<TextureSprite>("bg.jpeg");
-  // bg->set_x(0); bg->set_y(0);
-  // app->register_handler(bg);
-  // app->set_hello_world(IMG_Load("bg.jpeg"));
-  // if (app->get_hello_world() == nullptr) {
-  //   cerr << "Unable to load image bg.jpeg! SDL Error: " << 
-  //          SDL_GetError() << endl;
-  //   success = false;
-  // }
-
-  return success;
-}
-

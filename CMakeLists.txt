@@ -2,24 +2,15 @@ cmake_minimum_required(VERSION 3.14)
 
 project(caraoke)
 set(CMAKE_CXX_STANDARD 17)
-# set(CMAKE_PREF ./src)
-# include_directories(${CMAKE_HOME_DIRECTORY}/src)
-aux_source_directory("src" SOURCES)
-# set(SOURCES 
-#     main.cpp 
-#     text.cpp text.hh 
-#     loader.hh loader.cpp  
-#     texture.hh texture.cpp 
-#     globals.hh globals.cpp 
-#     common.hh
-#     sdl_utils.hh sdl_utils.cpp 
-#     audio.hh audio.cpp
-#     sprite.hh sprite.cpp
-#     karaoke_text_display.hh karaoke_text_display.cpp
-#     app.hh app.cpp
-#     event_handler.hh event_handler.cpp
-#     texture_sprite.hh texture_sprite.cpp
-#     rectangle.hh rectangle.cpp)
+
+set(SOURCES 
+src/app.hh            src/karaoke_text_display.hh  src/sprite.hh          src/app.cpp                   src/loader.cpp     src/sprite.cpp
+src/audio.hh          src/loader.hh                src/text.hh            src/audio.cpp                 src/main.cpp       src/text.cpp
+src/common.hh         src/rectangle.hh             src/texture.hh         src/event_handler.cpp         src/rectangle.cpp  src/texture.cpp
+src/event_handler.hh  src/scene.hh                 src/texture_sprite.hh  src/globals.cpp               src/scene.cpp      src/texture_sprite.cpp
+src/globals.hh        src/sdl_utils.hh             src/thriller_scene.hh  src/karaoke_text_display.cpp  src/sdl_utils.cpp  src/thriller_scene.cpp
+)
+
 find_package(Threads REQUIRED)
 # find_package(SDL REQUIRED VERSION 2)
 # find_package(SDL_sound REQUIRED)
