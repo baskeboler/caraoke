@@ -4,12 +4,10 @@
 #include "event_handler.hh"
 #include "sprite.hh"
 
-class Scene: public EventHandler, public Sprite {
-
+class Scene : public EventHandler, public Sprite {
 
 public:
-
-    virtual ~Scene();
+  virtual ~Scene();
 };
 
 #endif // SCENE_HH

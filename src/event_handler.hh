@@ -7,20 +7,18 @@ using std::string;
 
 class EventHandler {
 
-    static long _id;
+  static long _id;
 
-    long numerical_id;
-    public:
+  long numerical_id;
 
-    static long next_id();
-    
-    EventHandler();
-    long get_numerical_id() const;
-    virtual void handle_event(SDL_Event& e) = 0; 
-    virtual string get_handler_id() const = 0;
-    virtual ~EventHandler();
+public:
+  static long next_id();
+
+  EventHandler();
+  long get_numerical_id() const;
+  virtual void handle_event(SDL_Event &e) = 0;
+  virtual string get_handler_id() const = 0;
+  virtual ~EventHandler();
 };
 
-
 #endif // EVENT_HANDLER_H
-

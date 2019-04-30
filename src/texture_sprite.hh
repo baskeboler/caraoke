@@ -17,8 +17,8 @@ public:
   TextureSprite(const string &path);
   void render() override;
 
-  string get_handler_id() const override ;
-  void handle_event(SDL_Event& e)  override;
+  string get_handler_id() const override;
+  void handle_event(SDL_Event &e) override;
   virtual ~TextureSprite();
 };
 

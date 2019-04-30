@@ -1,6 +1,5 @@
 #include "globals.hh"
 
-
 int Globals::SCREEN_WIDTH = 800;
 int Globals::SCREEN_HEIGHT = 600;
 

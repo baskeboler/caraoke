@@ -1,8 +1,8 @@
 #if !defined(THRILLER_SCENE_HH)
 #define THRILLER_SCENE_HH
 
-#include "scene.hh"
 #include "karaoke_text_display.hh"
+#include "scene.hh"
 #include "text.hh"
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
@@ -15,8 +15,8 @@ class ThrillerScene : public Scene {
 
   Mix_Music *song;
   FrameVec frames;
-  TTF_Font* font, *big_font;
-  SDL_Renderer* renderer;
+  TTF_Font *font, *big_font;
+  SDL_Renderer *renderer;
   shared_ptr<TextFrame> current_frame;
   shared_ptr<KaraokeTextDisplay> text_display, text_progress;
   shared_ptr<TextureSprite> bg;
@@ -24,6 +24,7 @@ class ThrillerScene : public Scene {
   string handler_id;
   apr_time_t start;
   int last_time_update;
+
 public:
   void start_timer();
   double elapsed_seconds();
@@ -38,9 +39,9 @@ public:
   void render() override;
   virtual ~ThrillerScene();
 
-  private:
-  void validate_window(SDL_Event& e) ;
-  void update_position() ;
+private:
+  void validate_window(SDL_Event &e);
+  void update_position();
   void update_time_display(double secs);
 };
 

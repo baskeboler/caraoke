@@ -7,8 +7,7 @@ using std::cout, std::cerr, std::endl, std::stringstream;
 KaraokeTextDisplay::KaraokeTextDisplay()
     : Sprite(), EventHandler(), renderer(nullptr), font(nullptr), progress(0) {}
 
-KaraokeTextDisplay::~KaraokeTextDisplay() {
-}
+KaraokeTextDisplay::~KaraokeTextDisplay() {}
 
 KaraokeTextDisplay::KaraokeTextDisplay(const char *text, SDL_Color color,
                                        TTF_Font *font, SDL_Renderer *renderer)
@@ -55,7 +54,6 @@ void KaraokeTextDisplay::handle_event(SDL_Event &e) {
   update();
 
   render();
-
 }
 
 std::string KaraokeTextDisplay::get_handler_id() const {

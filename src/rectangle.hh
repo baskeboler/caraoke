@@ -1,17 +1,17 @@
 #if !defined(RECTANGLE_HH)
 #define RECTANGLE_HH
 
-#include "sprite.hh"
 #include "SDL2/SDL.h"
+#include "sprite.hh"
 
-class Rectangle: public Sprite {
-    SDL_Color border_color, fill_color;
+class Rectangle : public Sprite {
+  SDL_Color border_color, fill_color;
 
-    public:
-    Rectangle(int x, int y, int w, int h);
-    virtual ~Rectangle();
+public:
+  Rectangle(int x, int y, int w, int h);
+  virtual ~Rectangle();
 
-    void render() override;
+  void render() override;
 };
 
 #endif // RECTANGLE_HH

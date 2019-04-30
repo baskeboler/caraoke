@@ -1,8 +1,9 @@
 #include "texture.hh"
 #include <iostream>
 
-Texture::Texture(SDL_Texture* tex, SDL_Renderer* ren): mTexture(tex), mRenderer(ren), mWidth(0), mHeight(0) {}
-  
+Texture::Texture(SDL_Texture *tex, SDL_Renderer *ren)
+    : mTexture(tex), mRenderer(ren), mWidth(0), mHeight(0) {}
+
 void Texture::init(int w, int h) {
   this->mHeight = h;
   this->mWidth = w;

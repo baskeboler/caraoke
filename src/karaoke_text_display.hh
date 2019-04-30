@@ -10,16 +10,13 @@
 #include <memory>
 using std::shared_ptr;
 
-class KaraokeTextDisplay
-    : public Sprite,
-      public EventHandler {
+class KaraokeTextDisplay : public Sprite, public EventHandler {
   shared_ptr<TextFrame> text_frame;
   shared_ptr<Texture> texture_black, texture_red;
   SDL_Renderer *renderer;
   TTF_Font *font;
   int progress;
   apr_time_t timestamp;
-
 
 public:
   KaraokeTextDisplay();

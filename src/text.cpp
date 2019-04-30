@@ -1,7 +1,7 @@
 #include "text.hh"
-#include <pthread.h>
-#include <jansson.h>
 #include <iostream>
+#include <jansson.h>
+#include <pthread.h>
 using std::cerr;
 using std::endl;
 static unsigned int TEXT_FRAME_ID = 1;
@@ -21,7 +21,7 @@ unsigned int text_frame_next_id() {
   return ret;
 }
 
-TextFrame::TextFrame(const char * t, unsigned int progress) {
+TextFrame::TextFrame(const char *t, unsigned int progress) {
   id = text_frame_next_id();
   text = t;
   progress = progress;
@@ -30,17 +30,13 @@ TextFrame::TextFrame(const char * t, unsigned int progress) {
   pthread_mutexattr_t attr;
   pthread_mutexattr_init(&attr);
   pthread_mutex_init(&mutex, &attr);
-
 }
 
 string TextFrame::get_current_text_progress(double offset) {
-    int count = 0;
-    for(auto&& e : events)
-    {
-      if (e.offset_seconds <= offset)
-        count += e.char_count;
-    }
-    return text.substr(0, count);
-    
+  int count = 0;
+  for (auto &&e : events) {
+    if (e.offset_seconds <= offset)
+      count += e.char_count;
   }
-  
+  return text.substr(0, count);
+}

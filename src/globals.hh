@@ -8,15 +8,15 @@
 
 using std::shared_ptr;
 
-struct  Globals {
+struct Globals {
 
   // Screen dimension constants
-  static int SCREEN_WIDTH ;
+  static int SCREEN_WIDTH;
   static int SCREEN_HEIGHT;
 
   // The window we'll be rendering to
   static SDL_Window *gWindow;
-  static SDL_Renderer *gRenderer ;
+  static SDL_Renderer *gRenderer;
 
   // The surface contained by the window
   static SDL_Surface *gScreenSurface;

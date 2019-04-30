@@ -1,4 +1,3 @@
 #include "scene.hh"
 
-
- Scene::~Scene(){}
+Scene::~Scene() {}

@@ -6,8 +6,8 @@
 #include <memory>
 using std::shared_ptr;
 
-extern Mix_Music * audio_load_music(const char* path);
-extern Mix_Chunk * audio_load_sample(const char* path);
+extern Mix_Music *audio_load_music(const char *path);
+extern Mix_Chunk *audio_load_sample(const char *path);
 
-extern bool loadMusic() ;
+extern bool loadMusic();
 #endif // AUDIO_H

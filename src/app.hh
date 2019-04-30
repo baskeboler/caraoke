@@ -1,7 +1,7 @@
 #if !defined(APP_H)
 #define APP_H
-#include "scene.hh"
 #include "globals.hh"
+#include "scene.hh"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
@@ -29,6 +29,7 @@ private:
   vector<shared_ptr<EventHandler>> handlers;
 
   shared_ptr<Scene> current_scene;
+
 public:
   App();
 
@@ -52,9 +53,7 @@ public:
 
   void handle_event(SDL_Event &e);
 
-  shared_ptr<Scene> get_current_scene() {
-    return current_scene;
-  }
+  shared_ptr<Scene> get_current_scene() { return current_scene; }
 
   void set_current_scene(shared_ptr<Scene> scene) {
     if (scene) {
@@ -64,7 +63,7 @@ public:
       current_scene = scene;
       register_handler(scene);
     }
-  }  
+  }
 };
 
 #endif // APP_H

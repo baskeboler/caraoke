@@ -5,7 +5,6 @@ typedef int BOOL;
 #define TRUE 1;
 #define FALSE 0;
 
-
 typedef int status_t;
 #define STATUS_OK 0
 #define STATUS_ERROR_LIST_EMPTY 1
