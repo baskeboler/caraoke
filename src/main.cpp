@@ -36,12 +36,13 @@ int print_frame(TextFrame *f) {
 int main(int argc, char **argv) {
   shared_ptr<App> app = App::get_instance();
   // Initialize SDL
-  if (!sdl_init()) {
+  if (!app->init()) {
     cerr << "Failed to init SDL" << endl;
+    return 1;
   } else {
 
+
     auto scene = std::make_shared<TitleScene>(app->get_renderer());
-    // scene->init();
     app->set_current_scene(scene);
     bool quit = false;
     SDL_Event e;

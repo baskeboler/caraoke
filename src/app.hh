@@ -10,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <vector>
+#include "sound_controller.hh"
 
 using std::cout, std::endl;
 using std::map;
@@ -29,13 +30,14 @@ private:
   vector<shared_ptr<EventHandler>> handlers;
 
   shared_ptr<Scene> current_scene;
-
+  shared_ptr<SoundController> sound_controller;
 public:
   App();
 
 public:
   static shared_ptr<App> get_instance();
   ~App();
+  bool init();
   int get_screen_width() const;
   int get_screen_height() const;
   SDL_Window *get_window() const;

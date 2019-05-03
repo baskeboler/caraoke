@@ -8,8 +8,9 @@ src/app.hh            src/karaoke_text_display.hh  src/sprite.hh          src/ap
 src/audio.hh          src/loader.hh                src/text.hh            src/audio.cpp                 src/main.cpp       src/text.cpp
 src/common.hh         src/rectangle.hh             src/texture.hh         src/event_handler.cpp         src/rectangle.cpp  src/texture.cpp
 src/event_handler.hh  src/scene.hh                 src/texture_sprite.hh  src/globals.cpp               src/scene.cpp      src/texture_sprite.cpp
-src/globals.hh        src/sdl_utils.hh             src/thriller_scene.hh  src/karaoke_text_display.cpp  src/sdl_utils.cpp  src/thriller_scene.cpp
-src/title_scene.hh src/title_scene.cpp)
+src/globals.hh                    src/thriller_scene.hh  src/karaoke_text_display.cpp    src/thriller_scene.cpp
+src/title_scene.hh src/title_scene.cpp src/sound_controller.hh src/sound_controller.cpp
+src/text_sprite.hh src/text_sprite.cpp)
 
 find_package(Threads REQUIRED)
 # find_package(SDL REQUIRED VERSION 2)
