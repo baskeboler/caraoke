@@ -1,4 +1,5 @@
-#include "thriller_scene.hh"
+#include "karaoke_scene.hh"
+
 #include "app.hh"
 #include "audio.hh"
 #include "loader.hh"
@@ -7,9 +8,9 @@
 using std::stringstream, std::string, std::make_shared, std::shared_ptr,
     std::cerr;
 
-string ThrillerScene::get_handler_id() const { return handler_id; }
+string KaraokeScene::get_handler_id() const { return handler_id; }
 
-void ThrillerScene::handle_event(SDL_Event &e) {
+void KaraokeScene::handle_event(SDL_Event &e) {
   switch (e.type) {
   case SDL_KEYDOWN: {
     switch (e.key.keysym.sym) {
@@ -30,7 +31,7 @@ void ThrillerScene::handle_event(SDL_Event &e) {
   render();
 }
 
-void ThrillerScene::render() {
+void KaraokeScene::render() {
   SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
   SDL_RenderClear(renderer);
   bg->render();
@@ -38,11 +39,11 @@ void ThrillerScene::render() {
   text_display->render();
 }
 
-bool ThrillerScene::init() {
+bool KaraokeScene::init() {
   bool success = true;
   auto app = App::get_instance();
   stringstream ss;
-  ss << "thriller-scene-" << get_numerical_id();
+  ss << "Karaoke-scene-" << get_numerical_id();
   handler_id = ss.str();
   renderer = app->get_renderer();
   auto w = app->get_screen_width(), h = app->get_screen_height();
@@ -66,17 +67,17 @@ bool ThrillerScene::init() {
     // bg->init(100, 100);
     // bg->load("bg.jpeg");
     text_display = std::make_shared<KaraokeTextDisplay>(
-        "Micheal Jackson - Thriller", textColor, big_font, renderer);
+        "Micheal Jackson - Karaoke", textColor, big_font, renderer);
   }
-  bg = make_shared<TextureSprite>("bg.jpeg");
+  bg = make_shared<TextureSprite>("bg2.jpg");
   bg->set_x(0);
   bg->set_y(0);
 
   update_position();
-  FrameVec l = load_json("song.json");
+  FrameVec l = load_json(info.json_path.c_str());
   frames = std::move(l);
 
-  const char *path = "song.mp3";
+  const char *path = info.song_path.c_str();
   song = audio_load_music((char *)path);
   Mix_PlayMusic(song, 1);
   start_timer();
@@ -90,7 +91,7 @@ bool ThrillerScene::init() {
   return success;
 }
 
-void ThrillerScene::update_time_display(double dsecs) {
+void KaraokeScene::update_time_display(double dsecs) {
   int secs = dsecs, mins = secs / 60;
 
   if (secs > last_time_update) {
@@ -102,24 +103,16 @@ void ThrillerScene::update_time_display(double dsecs) {
     last_time_update = secs;
   }
 }
-void ThrillerScene::start_timer() { start = apr_time_now(); }
 
-ThrillerScene::~ThrillerScene() {
+KaraokeScene::~KaraokeScene() {
   TTF_CloseFont(font);
   TTF_CloseFont(big_font);
   Mix_FreeMusic(song);
 }
 
-double ThrillerScene::elapsed_seconds() {
-  apr_time_t now = apr_time_now();
-  long now_msec = apr_time_as_msec(now);
-  long start_msec = apr_time_as_msec(start);
-  return 1.0 * (now_msec - start_msec) / 1000;
-}
+void KaraokeScene::set_frames(FrameVec &&vec) { frames = vec; }
 
-void ThrillerScene::set_frames(FrameVec &&vec) { frames = vec; }
-
-void ThrillerScene::update_frame() {
+void KaraokeScene::update_frame() {
   auto app = App::get_instance();
   shared_ptr<TextFrame> current = nullptr;
   auto elapsed = elapsed_seconds();
@@ -148,17 +141,17 @@ void ThrillerScene::update_frame() {
     text_display->update();
   }
 }
-shared_ptr<KaraokeTextDisplay> ThrillerScene::get_text_display() {
+shared_ptr<KaraokeTextDisplay> KaraokeScene::get_text_display() {
   return text_display;
 }
-void ThrillerScene::set_text_display(shared_ptr<KaraokeTextDisplay> t) {
+void KaraokeScene::set_text_display(shared_ptr<KaraokeTextDisplay> t) {
   text_display = t;
 }
-shared_ptr<TextFrame> ThrillerScene::get_current_frame() {
+shared_ptr<TextFrame> KaraokeScene::get_current_frame() {
   return current_frame;
 }
 
-void ThrillerScene::validate_window(SDL_Event &e) {
+void KaraokeScene::validate_window(SDL_Event &e) {
   if (e.type == SDL_WINDOWEVENT &&
       e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
     auto app = App::get_instance();
@@ -168,7 +161,7 @@ void ThrillerScene::validate_window(SDL_Event &e) {
     update_position();
   }
 }
-void ThrillerScene::update_position() {
+void KaraokeScene::update_position() {
   auto w = get_w(), h = get_h();
   auto t_w = text_display->get_w(), t_h = text_display->get_h();
   text_display->set_x(w / 2 - t_w / 2);
@@ -179,5 +172,5 @@ void ThrillerScene::update_position() {
   bg->set_y(w / 2 - bg_h / 2);
 }
 
-void ThrillerScene::on_scene_enter() { init(); }
-void ThrillerScene::on_scene_exit() { Mix_HaltMusic(); }
+void KaraokeScene::on_scene_enter() { init(); }
+void KaraokeScene::on_scene_exit() { Mix_HaltMusic(); }

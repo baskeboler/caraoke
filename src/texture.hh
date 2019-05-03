@@ -30,7 +30,7 @@ public:
   void load(const string &path);
   void load_from_rendered_text(const string &text, SDL_Color text_color,
                                TTF_Font *font);
-  void render(int x, int y);
+  void render(int x, int y, double angle = 0, double scale = 1);
   ~Texture();
 };
 

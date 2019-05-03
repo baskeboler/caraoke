@@ -2,13 +2,14 @@
 #define TITLE_SCENE_HH
 
 #include "scene.hh"
+#include "text_sprite.hh"
 #include "texture.hh"
-#include <memory>
-
 #include <SDL2/SDL_ttf.h>
+#include <memory>
 class TitleScene : public Scene {
   TTF_Font *font;
-  std::shared_ptr<Texture> title_tex;
+  std::shared_ptr<TextSprite> title_sprite;
+
   SDL_Renderer *renderer;
   int title_x, title_y;
 
@@ -21,6 +22,7 @@ public:
 
 private:
   void update_title_position();
+  void update();
 
 protected:
   void on_scene_enter() override;

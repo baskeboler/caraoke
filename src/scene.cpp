@@ -16,3 +16,12 @@ void Scene::start_scene(SceneName scene_name) {
 
   SDL_PushEvent(&e);
 }
+
+double Scene::elapsed_seconds() {
+  apr_time_t now = apr_time_now();
+  long now_msec = apr_time_as_msec(now);
+  long start_msec = apr_time_as_msec(start);
+  return 1.0 * (now_msec - start_msec) / 1000;
+}
+
+void Scene::start_timer() { start = apr_time_now(); }

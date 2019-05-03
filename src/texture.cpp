@@ -1,4 +1,6 @@
 #include "texture.hh"
+// #include <SDL2/SDL_video.h>
+#include <SDL2/SDL_render.h>
 #include <iostream>
 
 Texture::Texture(SDL_Texture *tex, SDL_Renderer *ren)
@@ -68,7 +70,11 @@ void Texture::load(const string &path) {
     SDL_FreeSurface(surface);
   }
 }
-void Texture::render(int x, int y) {
+void Texture::render(int x, int y, double angle, double scale) {
   SDL_Rect rect = {x, y, mWidth, mHeight};
-  SDL_RenderCopy(mRenderer, mTexture, NULL, &rect);
+  SDL_RenderSetScale(mRenderer, scale, scale);
+  SDL_RenderCopyEx(mRenderer, mTexture, NULL, &rect, angle, nullptr,
+                   SDL_RendererFlip::SDL_FLIP_NONE);
+
+  SDL_RenderSetScale(mRenderer,1,1);
 }
