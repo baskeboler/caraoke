@@ -14,7 +14,7 @@ TextSprite::TextSprite(const string &text, SDL_Color color, TTF_Font *font,
   set_y(0);
 }
 
-void TextSprite::render() { texture->render(get_x(), get_y(), get_angle()); }
+void TextSprite::render() { texture->render(get_x(), get_y(), get_angle(), get_scale()); }
 
 string TextSprite::get_handler_id() const {
   std::stringstream ss;

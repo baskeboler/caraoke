@@ -2,6 +2,8 @@
 #define APP_H
 #include "globals.hh"
 #include "scene.hh"
+#include "song_info.hh"
+#include "sound_controller.hh"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
@@ -10,8 +12,6 @@
 #include <map>
 #include <memory>
 #include <vector>
-#include "sound_controller.hh"
-
 using std::cout, std::endl;
 using std::map;
 using std::shared_ptr;
@@ -31,6 +31,8 @@ private:
 
   shared_ptr<Scene> current_scene;
   shared_ptr<SoundController> sound_controller;
+  vector<SongInfo> songs;
+
 public:
   App();
 

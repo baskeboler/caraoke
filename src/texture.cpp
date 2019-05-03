@@ -70,8 +70,11 @@ void Texture::load(const string &path) {
     SDL_FreeSurface(surface);
   }
 }
-void Texture::render(int x, int y, double angle) {
+void Texture::render(int x, int y, double angle, double scale) {
   SDL_Rect rect = {x, y, mWidth, mHeight};
+  SDL_RenderSetScale(mRenderer, scale, scale);
   SDL_RenderCopyEx(mRenderer, mTexture, NULL, &rect, angle, nullptr,
                    SDL_RendererFlip::SDL_FLIP_NONE);
+
+  SDL_RenderSetScale(mRenderer,1,1);
 }

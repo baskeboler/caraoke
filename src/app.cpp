@@ -1,9 +1,10 @@
 #include "app.hh"
-#include "thriller_scene.hh"
+#include "files.hh"
+#include "karaoke_scene.hh"
+#include "song_info.hh"
 #include "title_scene.hh"
 #include <iostream>
 #include <memory>
-
 using std::shared_ptr, std::cout, std::cerr, std::endl, std::stringstream,
     std::make_shared;
 
@@ -12,11 +13,14 @@ shared_ptr<App> App::_instance{};
 App::App()
     : SCREEN_HEIGHT(Globals::SCREEN_HEIGHT),
       SCREEN_WIDTH(Globals::SCREEN_WIDTH), gWindow(Globals::gWindow),
-      gRenderer(Globals::gRenderer), gScreenSurface(Globals::gScreenSurface)
-{}
+      gRenderer(Globals::gRenderer), gScreenSurface(Globals::gScreenSurface) {}
 
 bool App::init() {
   // Initialization flag
+  Files fs;
+  songs = fs.files("json");
+  for (auto ff : songs)
+    cout << ff << endl;
   bool success = true;
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0) {
     cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << endl;
@@ -163,7 +167,10 @@ void App::handle_event(SDL_Event &e) {
   }
   case SceneEvents::StartNewScene: {
     if (e.user.data1 == (void *)SceneName::SceneThriller) {
-      auto thr = make_shared<ThrillerScene>();
+      std::random_shuffle(songs.begin(), songs.end());
+      auto s = songs.back();
+      cout << "starting " << s << endl;
+      auto thr = make_shared<KaraokeScene>(s);
       set_current_scene(thr);
     } else if (e.user.data1 == (void *)SceneName::SceneTitle) {
       auto title = make_shared<TitleScene>(get_renderer());

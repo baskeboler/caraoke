@@ -4,10 +4,8 @@
 #include "karaoke_text_display.hh"
 #include "loader.hh"
 #include "rectangle.hh"
-#include "sdl_utils.hh"
 #include "text.hh"
 #include "texture.hh"
-#include "thriller_scene.hh"
 #include "title_scene.hh"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -40,7 +38,6 @@ int main(int argc, char **argv) {
     cerr << "Failed to init SDL" << endl;
     return 1;
   } else {
-
 
     auto scene = std::make_shared<TitleScene>(app->get_renderer());
     app->set_current_scene(scene);

@@ -7,6 +7,7 @@
 using std::stringstream;
 
 TitleScene::TitleScene(SDL_Renderer *renderer) : renderer(renderer) {
+  // start_timer
   font = TTF_OpenFont("Bangers-Regular.ttf", 72);
   title_sprite.reset(
       new TextSprite("Karaoke", {128, 128, 128, 255}, font, renderer));
@@ -17,7 +18,7 @@ TitleScene::TitleScene(SDL_Renderer *renderer) : renderer(renderer) {
 }
 void TitleScene::update_title_position() {
   auto app = App::get_instance();
-  auto w = app->get_screen_width(), h = app->get_screen_height(),
+  double w = app->get_screen_width(), h = app->get_screen_height(),
        t_w = title_sprite->get_w(), t_h = title_sprite->get_h();
 
   title_x = w / 2 - t_w / 2;
@@ -54,8 +55,9 @@ void TitleScene::handle_event(SDL_Event &e) {
   render();
 }
 void TitleScene::render() {
-
-  SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
+  auto secs = elapsed_seconds();
+  double alphaq = lerp(secs, DVec2{0, 15}, DVec2{0, 1});
+  SDL_SetRenderDrawColor(renderer, alphaq * 255.0, 0, 0,alphaq *  180.0);
   SDL_RenderClear(renderer);
   // SDL_RenderSetViewport
   title_sprite->render();
@@ -66,15 +68,18 @@ TitleScene::~TitleScene() {
   title_sprite.reset();
 }
 void TitleScene::update() {
-  auto ticks = SDL_GetTicks();
-  double secs = 1.0 * ticks / 400.0;
+  // auto ticks = elapsed_seconds();
+  double secs = elapsed_seconds();
   // num::
 
   double angle = std::cos(secs) * 15.0;
   double sin_val = std::sin(secs);
-  title_sprite->update_pos();
-  title_sprite->set_vel(DVec2{0, 3}*sin_val);
+  title_sprite->update_pos(secs);
+  title_sprite->set_vel(DVec2{0, 100}*sin_val);
   title_sprite->set_angle(angle);
+  title_sprite->set_scale(lerp(secs, DVec2{0,15}, DVec2{3,1}));
 }
-void TitleScene::on_scene_enter() {}
+void TitleScene::on_scene_enter() {
+  start_timer();
+}
 void TitleScene::on_scene_exit() {}
